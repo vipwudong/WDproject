@@ -1,0 +1,9 @@
+project.config.json
+.idea/*
+jsconfig.json
+typings/*
+.vscode/*
+packageMock/.DS_Store
+packageMock/pages/.DS_Store
+.DS_Store
+node_modules/
