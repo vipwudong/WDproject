@@ -27,7 +27,7 @@ class TongLao():
                 print("叛徒！我杀了你")
     # 定义fight_zms方法
     def fight_zms(self, enemyhp, enemypower):
-        tlhp = self.tl_hp * 2 - enemypower
+        tlhp = self.tl_hp/2 - enemypower
         enhp = enemyhp - self.tl_power * 10
         # 一回合制对打，比较血量
         if tlhp > enhp:
