@@ -35,7 +35,8 @@ class TongLao():
         elif tlhp < enhp:
             print("就算你杀了我，也休想让我交出逍遥派掌门指环")
         else:
-            print("同归于尽")
+            raise Exception("我要跟你同归于尽")
+
 # 实例化
 tl = TongLao(1500,1000)
 tl.see_people("李秋水")
