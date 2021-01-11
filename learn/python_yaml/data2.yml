@@ -1,0 +1,7 @@
+#橘色的代表key值，白色的代表value 中间要有空格
+#缩进代表嵌套
+
+persion:
+  name: 小明
+  age: 15
+  habit: 吃饭
