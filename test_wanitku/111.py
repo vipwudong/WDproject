@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import requests
 
 headers ={
@@ -16,16 +14,9 @@ headers ={
             "VersionNumber": "3630",
             "Token": "20210113173647-e1d6dc0525d7992986f7d6603c916942"
             }
-def test_data():
-    data_url = "https://weixin.566.com//api/login/EncryptMobile?"
-    data = {"mobile":"18600215696"}
-    r = requests.get(url=data_url,params=data,headers =headers)
-    assert r.json()["Msg"] == "成功"
-    data_login = r.json()["Data"]
-    return data_login
-def test_login():
-    login_url = "https://weixin.566.com//api/login/MobileLogin?t=1610525122000"
-    r = requests.post(url=login_url, data="data_login", headers=headers)
-    # assert r.json()["NickName"] == "刘全有"
-    print(r.json())
-    print()
+data_url = "https://weixin.566.com//api/login/EncryptMobile?"
+data = {"mobile" :"18600215696"}
+r = requests.get(url=data_url,params=data,headers =headers)
+assert r.json()["Msg"] == "成功"
+# return (r.json())
+print(r.text)

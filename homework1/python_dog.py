@@ -1,19 +1,30 @@
-# 定义类，首字母要大写
-class Dog:
-    # 属性
-    color ="white"
-    bodytype ="big"
-    leg = 4
-    # 方法
-    def eat(self):
-        print("吃狗粮")
-    def cry(self):
-        print("看家ing")
-    def run(self):
-        print("出去遛弯")
+import requests
+class  Login:
+    headers ={
+        "UserClientType": "102",
+        "FakesubjectParentId": "0",
+        "SubjectId": "634",
+        "OpenId": "ouoD50BJyntZYO_P4nKD7zpK7pjA",
+        "SubjectMergerId": "538",
+        "SubjectParentId": "549",
+        "PackageId": "1",
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1 wechatdevtools/1.04.2006192 MicroMessenger/7.0.4 Language/zh_CN webview/",
+        "SubjectLevel": "31",
+        "VersionReview": "180",
+        "VersionNumber": "3630",
+        "Token": "20210113173647-e1d6dc0525d7992986f7d6603c916942"
+        }
+    def logindata(self):
+        data_url = "https://weixin.566.com//api/login/EncryptMobile?"
+        data = {"mobile" :"18600215696"}
+        r = requests.get(url=data_url,params=data,headers=self.headers)
+        self.data_login = r.json()["Data"]
+        print(self.data_login)
+    def loglogin(self):
+        login_url = "https://weixin.566.com//api/login/MobileLogin?t=1610525122000"
+        r = requests.post(url=login_url,data=self.data_login,headers=self.headers)
+        print(r.json())
 
-print(Dog.leg)
-
-# 实例化
-dog = Dog()
-dog.run()
+login = Login()
+login.logindata()
+login.loglogin()
