@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from jsonpath import jsonpath
 
+import random
 from test_wanitku.api.baseapi import BaseApi
-
 
 class TestZhangjielianxi(BaseApi):
     def test_GetSpecialIntelligenceTree(self):
@@ -34,6 +34,31 @@ class TestZhangjielianxi(BaseApi):
                         }
         }
         r = self.send_requests(req)
-        print(r.json())
-        list = jsonpath(r,"&..QuestionId")
-        print(list)
+        self.paperid = r.json()["PaperEntity"]["PaperId"]
+        r1 = r.json()["PaperEntity"]["TKQuestionsBasicEntityList"][0]["QuestionsEntityList"]
+        questionList = [];
+        for q in r1:
+            answers = q["QuestionContentKeyValue"]
+            totalCount =  len(answers)
+            idx = random.randint(0, totalCount-1);
+            # print(idx)
+            # print(totalCount)
+            # print(answers[idx]);
+            answerKey =answers[idx]["Key"]
+            item = {"QuestionId": q["QuestionId"], "AnswerDuration": random.randint(0, 10000), "Options": answerKey}
+            questionList.append(item)
+
+        self.data = {"Answers": questionList, "paperid":self.paperid,"IsCheckinRewards":"false","isSavePaper":1}
+        print(self.data)
+    def test_SaveUserPaperWithQueue(self):
+         self.test_SpecialExercisePaper()
+         req = {
+             "method": "post",
+             "url": self.host + "/API/report/SaveUserPaperWithQueue",
+             "json": self.data
+         }
+         r = self.send_requests(req)
+         print(r.json())
+         self.SavePaperQueueId = r.json()["SavePaperQueueId"]
+         print(self.SavePaperQueueId)
+         #

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from test_wanitku.api.baseapi import BaseApi
+import random
 from jsonpath import jsonpath
 class Test_Papers(BaseApi):
     def test_getpapaerlist(self):
@@ -21,14 +22,29 @@ class Test_Papers(BaseApi):
             "headers": self.headers
         }
         r = self.send_requests(req)
-        print(r.json())
+        # print(r.json())
         assert r.json()["Msg"] == "成功"
+        r1 = r.json()["PaperEntity"]["TKQuestionsBasicEntityList"][0]["QuestionsEntityList"]
+        questionList = [];#定义一个空数组
+        for q in r1:#遍历选项答案
+            answers = q["QuestionContentKeyValue"]#生成选项列表
+            totalCount = len(answers)#试题选项个数
+            idx = random.randint(0, totalCount - 1)
+            # print(idx)
+            # print(totalCount)
+            # print(answers[idx]);
+            answerKey = answers[idx]["Key"]#随机取某个选项
+            item = {"QuestionId": q["QuestionId"], "AnswerDuration": random.randint(0, 100), "Options": answerKey}
+            questionList.append(item)
+
+        self.data = {"Answers": questionList, "paperid": self.paperId, "IsCheckinRewards": "false", "isSavePaper": 1}
+        print(self.data)
     def test_savepaper(self):
-        self.test_getpapaerlist()
+        self.test_getpapers()
         req = {
             "method": "post",
             "url":self.host + "/API/report/SaveUserPaperWithQueue?",
-            "json":{"paperid": self.paperId,"IsCheckinRewards": "false","isSavePaper": 1}
+            "json":self.data
         }
         r = self.send_requests(req)
         self.SavePaperQueueId = r.json()["SavePaperQueueId"]
